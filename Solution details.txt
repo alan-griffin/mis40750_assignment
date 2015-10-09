@@ -1,7 +1,7 @@
-# MIS40750 Assignment
-### Alan Griffin - 11535803
+MIS40750 Assignment
+Alan Griffin - 11535803
 
-###### Goal: To find location for new processing plant given coordinates for several raw material locations and nearby ports
+Goal: To find location for new processing plant given coordinates for several raw material locations and nearby ports
 
 Assumptions Made:
 - Whichever location is selected for plant, this location will still

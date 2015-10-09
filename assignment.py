@@ -1,5 +1,8 @@
+# Alan Griffin - 11535803
+# MIS40750 Assignment
+
 import sqlite3
-from math import *
+from math import asin, cos, sqrt
 import numpy as np
 
 
@@ -14,7 +17,7 @@ location = np.empty((2), dtype=object)
 # Assumptions
 # - Whichever location selected for plant, this location will still
 #   produce raw materials
-# - Abritary cost of $1 per km chosen as price to transport one ton of raw
+# - Arbitrary cost of $1 per km chosen as price to transport one ton of raw
 #   material 
 # - Plant locations are numbered 0-9, in the order they are read in
 # - Port locations are numbered 0-2, under same assumption
@@ -36,6 +39,7 @@ def run():
     nearest_port()
     total_travel_cost()
     prime_location = find_location()
+    
     print ""    
     print "The prime location to locate the plant is at raw material location",\
     prime_location[0], "while shipping to port", prime_location[1]
@@ -60,9 +64,9 @@ def plant_to_port_dist():
     for i in plant_location:
         port_dist(i[0], i[1], index) ; index += 1
 
-# Calculates the distance to the current plant, which is passed 
-# to the function as a set of coordinates and an index value. 
-# Haversine function used to compute distance.
+# Calculates the distance of the current plant, which is passed 
+# to the function as a set of coordinates and an index value, to
+# each of the ports. Haversine function used to compute distance.
 def port_dist(a, b, index):
     count = 0    
     for i in port_location:
@@ -70,7 +74,8 @@ def port_dist(a, b, index):
         count += 1
 
 
-# Set of functions which for each plant, calculates the distance  
+# Set of functions which for each plant, calculates the distance
+# to all other plants  
 def plant_to_plant_dist():
     index = 0
     for i in plant_location:
@@ -78,7 +83,7 @@ def plant_to_plant_dist():
         
 # Function which is passed plant coordinates and an index value as a
 # parameter, and computes the distance of the current plant to all
-# other plants        
+# other plants     
 def plant_dist(a, b, index):
     count = 0    
     for i in plant_location:
@@ -94,7 +99,7 @@ def haversine(a,b,c,d):
     f = b - d           
     f = (1 - cos(f)) / 2 
     h = e + ((cos(a) * cos(c)) * f)     
-    r = 6371    
+    r = 6371 # Radius of Earth    
     dist = 2 * r * asin(sqrt(h))
     return dist
 
@@ -145,13 +150,14 @@ def total_travel_cost():
         (plant_info[i][2] * plant_info[i][3])
         total_cost[i][1] = i
 
-# Plant with the lowest total cost is selected along with it's accompanying
+# Plant with the lowest total cost is selected along with its accompanying
 # port  
 def find_location():
     location[0] = 0 ; location[1] = plant_info[0][4]
     cost = total_cost[0][1]
     for i in range(1, len(total_cost)):
         if cost > total_cost[i][0]: 
+            cost = total_cost[i][1]
             location[1] = plant_info[i][4]
             location[0] = i 
     return location
